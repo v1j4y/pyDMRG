@@ -11,62 +11,75 @@ if __name__=="__main__":
 	site1 	= Site()
 	site2 	= Site()
 
-	dim1 	= site1.H.shape[0]
-	dim2 	= site2.H.shape[0]
+	nsites 	= 3
 
-	dim12	= dim1*dim2
-	dim34	= dim1*dim2
-	dim1234	= dim12*dim34
+	for i in range(1,nsites):
 
-	if dim12 < 54:
-		m 	= dim12
-	else:
-		m	= 54
+		dim1 	= site1.H.shape[0]
+		dim2 	= site2.H.shape[0]
 
-	dimO 	= m
+		dim12	= dim1*dim2
+		dim34	= dim1*dim2
+		dim1234	= dim12*dim34
 
-	sites = []
+		if dim12 < 54:
+			m 	= dim12
+		else:
+			m	= 54
 
-	sites.append(site1)
-	sites.append(site2)
+		dimO 	= m
 
-	'''
-	Forming block H12
-	'''
+		sites = []
 
-	site12 = Site()
-	form_H12(sites[0], sites[1], site12)
-	dim12 = site12.H.shape[0]
+		sites.append(site1)
+		sites.append(site2)
 
-	'''
-	Forming block H34
-	'''
+		'''
+		Forming block H12
+		'''
 
-	site34 = Site()
-	form_H12(sites[1], sites[0], site34)
+		site12 = Site()
+		form_H12(sites[0], sites[1], site12)
+		dim12 = site12.H.shape[0]
 
-	'''
-	Forming block H1234
-	'''
+		'''
+		Forming block H34
+		'''
 
-	site1234 = Site()
-	form_H12(site12, site34, site1234)
-	dim1234 = site1234.H.shape[0]
+		site34 = Site()
+		form_H12(sites[1], sites[0], site34)
 
-	print site1234.H.toarray()
+		'''
+		Forming block H1234
+		'''
 
-	'''
-	diagonalize H1234
-	'''
+		site1234 = Site()
+		form_H12(site12, site34, site1234)
+		dim1234 = site1234.H.shape[0]
 
-	neig = 1
+		'''
+		diagonalize H1234
+		'''
 
-	evals, evec = linalg.eigs(site1234.H, neig, which="SR", tol=0)
+		neig = 1
 
-	'''
-	calculate dmat
-	'''
-	
-	dmat, matO = form_dmat(evec, dim12)
+		evals, evec = linalg.eigs(site1234.H, neig, which="SR", tol=0)
 
-	print  evals, dmat
+		'''
+		calculate dmat
+		'''
+		
+		dmat, matO = form_dmat(evec, dim12)
+
+		print  evals, dim1
+
+		matOT 	= matO.transpose()
+		site12.H = matOT.dot(site12.H.dot(matO))
+		site12.Jz[0] = matOT.dot(site12.Jz[0].dot(matO))
+		site12.Sp[0] = matOT.dot(site12.Sp[0].dot(matO))
+		site12.Sm[0] = matOT.dot(site12.Sm[0].dot(matO))
+		site12.Jz[1] = matOT.dot(site12.Jz[1].dot(matO))
+		site12.Sp[1] = matOT.dot(site12.Sp[1].dot(matO))
+		site12.Sm[1] = matOT.dot(site12.Sm[1].dot(matO))
+		
+		site1 = site12
