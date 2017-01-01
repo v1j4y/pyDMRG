@@ -41,7 +41,7 @@ if __name__=="__main__":
 	'''
 
 	site34 = Site()
-	form_H12(sites[0], sites[1], site34)
+	form_H12(sites[1], sites[0], site34)
 
 	'''
 	Forming block H1234

@@ -18,17 +18,26 @@ class Site(object):
 		rowindicesJz 	= numpy.array([0,1])
 		columnindicesJz = numpy.array([0,1])
 		dataJz 			= numpy.array([1./2.,-1./2.])
-		self.Jz = csr_matrix((dataJz,(rowindicesJz,columnindicesJz)),shape=(2,2))
+		Jz 				= csr_matrix((dataJz,(rowindicesJz,columnindicesJz)),shape=(2,2))
+		self.Jz			= []
+		self.Jz.append(Jz)
+		self.Jz.append(Jz)
 
 		rowindicesSp 	= numpy.array([0])
 		columnindicesSp = numpy.array([1])
 		dataSp 			= numpy.array([1.])
-		self.Sp = csr_matrix((dataSp,(rowindicesSp,columnindicesSp)),shape=(2,2))
+		Sp 				= csr_matrix((dataSp,(rowindicesSp,columnindicesSp)),shape=(2,2))
+		self.Sp			= []
+		self.Sp.append(Sp)
+		self.Sp.append(Sp)
 
 		rowindicesSm 	= numpy.array([1])
 		columnindicesSm = numpy.array([0])
 		dataSm 			= numpy.array([1.])
-		self.Sm = csr_matrix((dataSm,(rowindicesSm,columnindicesSm)),shape=(2,2))
+		Sm 				= csr_matrix((dataSm,(rowindicesSm,columnindicesSm)),shape=(2,2))
+		self.Sm			= []
+		self.Sm.append(Sm)
+		self.Sm.append(Sm)
 
 		rowindicesH  	= numpy.array([0])
 		columnindicesH  = numpy.array([0])

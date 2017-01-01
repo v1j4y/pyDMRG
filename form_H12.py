@@ -16,12 +16,28 @@ def form_H12(site1, site2, site12):
 	row 	= numpy.array([0])
 	column 	= numpy.array([0])
 	data 	= numpy.array([0.])
-	H12 = csr_matrix((data ,(row ,column )),shape=(dim1*dim2,dim1*dim2))
-	H12 = 	    (1.0)*kron(site1.Jz, site2.Jz)
-	H12 = H12 + (0.5)*kron(site1.Sp, site2.Sm)
-	H12 = H12 + (0.5)*kron(site1.Sm, site2.Sp)
-	H12 = H12 + (1.0)*kron(site1.H, numpy.eye(dim2))
-	H12 = H12 + (1.0)*kron(numpy.eye(dim1), site2.H)
+	H12 	= csr_matrix((data ,(row ,column )),shape=(dim1*dim2,dim1*dim2))
+	H12 	= 	    (1.0)*kron(site1.Jz[1], site2.Jz[0])
+	H12 	= H12 + (0.5)*kron(site1.Sp[1], site2.Sm[0])
+	H12 	= H12 + (0.5)*kron(site1.Sm[1], site2.Sp[0])
+	H12 	= H12 + (1.0)*kron(site1.H, numpy.eye(dim2))
+	H12 	= H12 + (1.0)*kron(numpy.eye(dim1), site2.H)
+
+	Jz12	= 	    (1.0)*kron(site1.Jz[1], numpy.eye(dim2))
+	site12.Jz[0] = Jz12
+	Jz12	= 	    (1.0)*kron(numpy.eye(dim1), site2.Jz[0])
+	site12.Jz[1] = Jz12
+
+	Sp12	= 	    (1.0)*kron(site1.Sp[1], numpy.eye(dim2))
+	site12.Sp[0] = Sp12
+	Sp12	= 	    (1.0)*kron(numpy.eye(dim1), site2.Sp[0])
+	site12.Sp[1] = Sp12
+
+	Sm12	= 	    (1.0)*kron(site1.Sm[1], numpy.eye(dim2))
+	site12.Sm[0] = Sm12
+	Sm12	= 	    (1.0)*kron(numpy.eye(dim1), site2.Sm[0])
+	site12.Sm[1] = Sm12
+
 	site12.H = H12
 
 if __name__=="__main__":
