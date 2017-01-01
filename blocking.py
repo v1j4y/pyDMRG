@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 
 import numpy
-from scipy.sparse import csr_matrix, kron
+from scipy.sparse import csr_matrix, kron, linalg
 from sites import Site
 from form_H12 import form_H12
+from form_dmat import form_dmat
 
 if __name__=="__main__":
 	
@@ -35,6 +36,7 @@ if __name__=="__main__":
 
 	site12 = Site()
 	form_H12(sites[0], sites[1], site12)
+	dim12 = site12.H.shape[0]
 
 	'''
 	Forming block H34
@@ -49,5 +51,22 @@ if __name__=="__main__":
 
 	site1234 = Site()
 	form_H12(site12, site34, site1234)
+	dim1234 = site1234.H.shape[0]
 
 	print site1234.H.toarray()
+
+	'''
+	diagonalize H1234
+	'''
+
+	neig = 1
+
+	evals, evec = linalg.eigs(site1234.H, neig, which="SR", tol=0)
+
+	'''
+	calculate dmat
+	'''
+	
+	dmat, matO = form_dmat(evec, dim12)
+
+	print  evals, dmat
