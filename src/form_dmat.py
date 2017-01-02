@@ -19,22 +19,22 @@ def form_dmat(evec, dim12, dim34, m):
 	'''
 	
 	projvec = numpy.reshape(evec, (dim12, dim34))
-	dmat = projvec.dot(projvec.transpose())
+	dmat = projvec.dot(projvec.T)
 
-	neig = len(dmat)-2
 
 	if dim12 > m:
-#evals, evecs = linalg.eigs(dmat, k=neig, which="LM", tol=0)
-		evals, evecs = linalg.eigsh(dmat, k=neig, which="SA", tol=1e-08, maxiter=100000)
-		idx = evals.argsort()[::-1]   
-		evals = evals[idx]
-		evecs = evecs[:,idx]
+		evals, evecs = numpy.linalg.eigh(dmat)
+#	neig = m
+#	evals, evecs = linalg.eigsh(dmat, k=neig, which="SA", tol=1e-08, maxiter=100000)
+#	idx = evals.argsort()[::-1]   
+#	evals = evals[idx]
+#	evecs = evecs[:,idx]
 	else:
 		evals, evecs = numpy.linalg.eigh(dmat)
 
 	
 	if dim12 > m:
-		matO = evecs[:,0:m-1]
+		matO = evecs[:,dim12-1-m+1:dim12-1]
 	else:
 		matO = evecs
 

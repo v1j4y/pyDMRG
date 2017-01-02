@@ -28,22 +28,15 @@ def blocking(nsites):
 		dim34	= dim2*dim0
 		dim1234	= dim12*dim34
 
-		m		= 64
+		m		= 32
 		dimO 	= m
-
-		sites = []
-
-		sites.append(site1)
-		sites.append(site0)
-		sites.append(site0)
-		sites.append(site2)
 
 		'''
 		Forming block H12
 		'''
 
 		site12 = Site()
-		form_H12(sites[0], sites[1], site12)
+		form_H12(site1, site0, site12)
 		dim12 = site12.H.shape[0]
 
 		'''
@@ -51,7 +44,7 @@ def blocking(nsites):
 		'''
 
 		site34 = Site()
-		form_H12(sites[2], sites[3], site34)
+		form_H12(site2, site0, site34)
 
 		'''
 		Forming block H1234
@@ -65,9 +58,9 @@ def blocking(nsites):
 		diagonalize H1234
 		'''
 
-		neig = 1
+		neig = 2
 
-		evals, evec = linalg.eigsh(site1234.H, k=neig, which="SA", tol=1e-08, maxiter=100000)
+		evals, evec = linalg.eigsh(site1234.H.toarray(), k=neig, which="SA", tol=1e-08, maxiter=100000)
 #	evals, evecs = numpy.linalg.eigh(site1234.H.toarray())
 #	evec = evecs[:,0]
 
@@ -75,7 +68,7 @@ def blocking(nsites):
 		calculate dmat
 		'''
 		
-		dmat, matO = form_dmat(evec, dim12, dim34, m)
+		dmat, matO = form_dmat(evec[:,0], dim12, dim12, m)
 
 
 		matOT 	= matO.transpose()

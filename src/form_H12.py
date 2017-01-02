@@ -22,19 +22,19 @@ def form_H12(site1, site2, site12):
 	H12 	= H12 + (1.0)*kron(site1.H, numpy.eye(dim2))
 	H12 	= H12 + (1.0)*kron(numpy.eye(dim1), site2.H)
 
-	Jz12	= 	    (1.0)*kron(site1.Jz[1], numpy.eye(dim2))
+	Jz12	= 	    (1.0)*kron(site1.Jz[0], numpy.eye(dim2))
 	site12.Jz[0] = Jz12
-	Jz12	= 	    (1.0)*kron(numpy.eye(dim1), site2.Jz[0])
+	Jz12	= 	    (1.0)*kron(numpy.eye(dim1), site2.Jz[1])
 	site12.Jz[1] = Jz12
 
-	Sp12	= 	    (1.0)*kron(site1.Sp[1], numpy.eye(dim2))
+	Sp12	= 	    (1.0)*kron(site1.Sp[0], numpy.eye(dim2))
 	site12.Sp[0] = Sp12
-	Sp12	= 	    (1.0)*kron(numpy.eye(dim1), site2.Sp[0])
+	Sp12	= 	    (1.0)*kron(numpy.eye(dim1), site2.Sp[1])
 	site12.Sp[1] = Sp12
 
-	Sm12	= 	    (1.0)*kron(site1.Sm[1], numpy.eye(dim2))
+	Sm12	= 	    (1.0)*kron(site1.Sm[0], numpy.eye(dim2))
 	site12.Sm[0] = Sm12
-	Sm12	= 	    (1.0)*kron(numpy.eye(dim1), site2.Sm[0])
+	Sm12	= 	    (1.0)*kron(numpy.eye(dim1), site2.Sm[1])
 	site12.Sm[1] = Sm12
 
 	site12.H = H12

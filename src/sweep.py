@@ -1,11 +1,15 @@
 #!/usr/bin/env python
 
 import numpy
-from scipy.sparse import csr_matrix, kron, linalg
+from scipy import linalg
+from scipy.sparse import csr_matrix, kron
 from sites import Site
 from form_H12 import form_H12
-from form_dmat import form_dmat, pprint, is_Hermitian
+from form_dmat import form_dmat, is_Hermitian
 from blocking import blocking
+
+def pprint(matrix):
+	print numpy.array_str(matrix, precision=7, suppress_small=True)
 
 def sweep(nsites):
 
@@ -31,22 +35,15 @@ def sweep(nsites):
 			dim34	= dim2*dim0
 			dim1234	= dim12*dim34
 
-			m		= 128
+			m		= 32
 			dimO 	= m
-
-			sites = []
-
-			sites.append(site1)
-			sites.append(site0)
-			sites.append(site0)
-			sites.append(site2)
 
 			'''
 			Forming block H12
 			'''
 
 			site12 = Site()
-			form_H12(sites[0], sites[1], site12)
+			form_H12(site1, site0, site12)
 			dim12 = site12.H.shape[0]
 
 			'''
@@ -54,7 +51,7 @@ def sweep(nsites):
 			'''
 
 			site34 = Site()
-			form_H12(sites[2], sites[3], site34)
+			form_H12(site2, site0, site34)
 
 			'''
 			Forming block H1234
@@ -70,13 +67,14 @@ def sweep(nsites):
 
 			neig = 2
 
-			evals, evecs = linalg.eigsh(site1234.H, k=neig, which="SA", tol=1e-08, maxiter=100000)
+			evals, evecs = linalg.eigh(site1234.H.toarray(), eigvals=(0,1))
+#evals, evecs = linalg.eigsh(site1234.H, k=neig, which="SA", tol=1e-08, maxiter=100000)
 #	eval	s, evecs = numpy.linalg.eigh(site1234.H.toarray())
 			idx = evals.argsort()[::-1]   
 			evals = evals[idx]
 			evecs = evecs[:,idx]
 			evec	 = evecs[:,1]
-			print evals[1], evals[0]
+			print "i= ",i,evals[1], evals[0]
 
 			'''
 			calculate dmat
@@ -95,6 +93,7 @@ def sweep(nsites):
 			site12.Sm[1] = matOT.dot(site12.Sm[1].dot(matO))
 			
 			site1 = site12
+			print "dim =",dim1234,"dim12=",dim12,"dim12fin = ",site1.H.shape
 			sitefilename = "site_"+str((nsites+1)-i)
 			numpy.save(sitefilename, site1)
 
@@ -122,22 +121,15 @@ def sweep(nsites):
 			dim34	= dim2*dim0
 			dim1234	= dim12*dim34
 
-			m		= 128
+			m		= 32
 			dimO 	= m
-
-			sites = []
-
-			sites.append(site1)
-			sites.append(site0)
-			sites.append(site0)
-			sites.append(site2)
 
 			'''
 			Forming block H12
 			'''
 
 			site12 = Site()
-			form_H12(sites[0], sites[1], site12)
+			form_H12(site1, site0, site12)
 			dim12 = site12.H.shape[0]
 
 			'''
@@ -145,7 +137,7 @@ def sweep(nsites):
 			'''
 
 			site34 = Site()
-			form_H12(sites[2], sites[3], site34)
+			form_H12(site2, site0, site34)
 
 			'''
 			Forming block H1234
@@ -161,13 +153,14 @@ def sweep(nsites):
 
 			neig = 2
 
-			evals, evecs = linalg.eigsh(site1234.H, k=neig, which="SA", tol=1e-08, maxiter=100000)
+			evals, evecs = linalg.eigh(site1234.H.toarray(), eigvals=(0,1))
+#evals, evecs = linalg.eigsh(site1234.H, k=neig, which="SA", tol=1e-08, maxiter=100000)
 #	eval	s, evecs = numpy.linalg.eigh(site1234.H.toarray())
 			idx = evals.argsort()[::-1]   
 			evals = evals[idx]
 			evecs = evecs[:,idx]
 			evec	 = evecs[:,1]
-			print evals[1], evals[0]-evals[1]
+			print "i= ",i,evals[1], evals[0]
 
 			'''
 			calculate dmat
@@ -191,7 +184,7 @@ def sweep(nsites):
 
 if __name__ == "__main__":
 
-	nsites = 14
+	nsites = 10
 
 	'''
 	do blocking first
