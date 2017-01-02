@@ -19,12 +19,12 @@ def sweep(nsites):
 
 	site0 	= Site()
 
-	for i in range(nsites/2, 1, -1):
+	for i in range(nsites, 1, -1):
 
 			sitefilename = "site_"+str(i)+".npy"
 			site2 	= numpy.load(sitefilename).item()
 
-			if i == nsites/2:
+			if i == nsites:
 				site1 	= site2
 
 			dim1 	= site1.H.shape[0]
@@ -94,7 +94,7 @@ def sweep(nsites):
 			
 			site1 = site12
 			print "dim =",dim1234,"dim12=",dim12,"dim12fin = ",site1.H.shape
-			sitefilename = "site_"+str((nsites+1)-i)
+			sitefilename = "site_"+str((2*nsites+1)-i)
 			numpy.save(sitefilename, site1)
 
 	'''
@@ -105,12 +105,12 @@ def sweep(nsites):
 
 	site0 	= Site()
 
-	for i in range(nsites-1, nsites/2-1, -1):
+	for i in range(2*nsites-1, nsites-1, -1):
 
 			sitefilename = "site_"+str(i)+".npy"
 			site2 	= numpy.load(sitefilename).item()
 
-			if i == nsites-1:
+			if i == 2*nsites-1:
 				site1 	= Site()
 
 			dim1 	= site1.H.shape[0]
@@ -179,12 +179,13 @@ def sweep(nsites):
 			site12.Sm[1] = matOT.dot(site12.Sm[1].dot(matO))
 			
 			site1 = site12
-			sitefilename = "site_"+str((nsites+1)-i)
+			print "dim =",dim1234,"dim12=",dim12,"dim12fin = ",site1.H.shape
+			sitefilename = "site_"+str((2*nsites+1)-i)
 			numpy.save(sitefilename, site1)
 
 if __name__ == "__main__":
 
-	nsites = 10
+	nsites = 6
 
 	'''
 	do blocking first

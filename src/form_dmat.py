@@ -34,7 +34,7 @@ def form_dmat(evec, dim12, dim34, m):
 
 	
 	if dim12 > m:
-		matO = evecs[:,dim12-1-m+1:dim12-1]
+		matO = evecs[:,dim12-1-m+1:]
 	else:
 		matO = evecs
 

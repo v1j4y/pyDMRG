@@ -18,7 +18,7 @@ def blocking(nsites):
 	site1 	= Site()
 	site2 	= Site()
 
-	for i in range(1,nsites/2):
+	for i in range(1,nsites):
 
 		dim1 	= site1.H.shape[0]
 		dim0 	= site0.H.shape[0]
