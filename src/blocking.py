@@ -6,12 +6,18 @@ from sites import Site
 from form_H12 import form_H12
 from form_dmat import form_dmat
 
+def is_Hermitian(matrix):
+	return (matrix.transpose() == matrix).all()
+
+def pprint(matrix):
+	print numpy.array_str(matrix, precision=2, suppress_small=True)
+
 if __name__=="__main__":
 	
 	site1 	= Site()
 	site2 	= Site()
 
-	nsites 	= 3
+	nsites 	= 4
 
 	for i in range(1,nsites):
 
@@ -63,15 +69,18 @@ if __name__=="__main__":
 
 		neig = 1
 
-		evals, evec = linalg.eigs(site1234.H, neig, which="SR", tol=0)
+		print is_Hermitian(site1234.H.toarray())
+#	evals, evec = linalg.eigs(site1234.H, neig, which="SM", tol=1e-09, maxiter=400)
+		evals, evecs = numpy.linalg.eigh(site1234.H.toarray())
+		evec = evecs[::,0]
 
 		'''
 		calculate dmat
 		'''
 		
 		dmat, matO = form_dmat(evec, dim12)
+		print evals, site12.H.shape, dim12, matO.shape
 
-		print  evals, dim1
 
 		matOT 	= matO.transpose()
 		site12.H = matOT.dot(site12.H.dot(matO))
@@ -83,3 +92,5 @@ if __name__=="__main__":
 		site12.Sm[1] = matOT.dot(site12.Sm[1].dot(matO))
 		
 		site1 = site12
+		pprint(matO.dot(matOT))
+		pprint(site1.H)

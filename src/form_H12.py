@@ -11,7 +11,6 @@ def form_H12(site1, site2, site12):
 
 	dim1 = site1.H.shape[0]
 	dim2 = site2.H.shape[0]
-	print dim1, dim2
 
 	row 	= numpy.array([0])
 	column 	= numpy.array([0])
