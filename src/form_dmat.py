@@ -9,7 +9,7 @@ def is_Hermitian(matrix):
 def pprint(matrix):
 	print numpy.array_str(matrix, precision=2, suppress_small=True)
 
-def form_dmat(evec, dim12, dim34):
+def form_dmat(evec, dim12, dim34, m):
 	'''
 	For the reduced density matrix on the A* sub-block
 
@@ -23,16 +23,20 @@ def form_dmat(evec, dim12, dim34):
 
 	neig = len(dmat)-2
 
-	if len(dmat) > 34:
-		evals, evecs = linalg.eigs(dmat, k=neig, which="LM", tol=0)
+	if dim12 > m:
+#evals, evecs = linalg.eigs(dmat, k=neig, which="LM", tol=0)
+		evals, evecs = linalg.eigsh(dmat, k=neig, which="SA", tol=1e-08, maxiter=100000)
+		idx = evals.argsort()[::-1]   
+		evals = evals[idx]
+		evecs = evecs[:,idx]
 	else:
 		evals, evecs = numpy.linalg.eigh(dmat)
 
 	
-	if dim12 <= 16:
-		matO = evecs
+	if dim12 > m:
+		matO = evecs[:,0:m-1]
 	else:
-		matO = evecs[:,0:31]
+		matO = evecs
 
 	return dmat, matO
 
@@ -43,4 +47,4 @@ if __name__=="__main__":
 	dim12 	= 4
 	dmat 	= numpy.zeros((dim12, dim12))
 
-	dmat, matO = form_dmat(evec, dim12)
+	dmat, matO = form_dmat(evec, dim12, dim12, 32)

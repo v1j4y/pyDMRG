@@ -28,11 +28,7 @@ def blocking(nsites):
 		dim34	= dim2*dim0
 		dim1234	= dim12*dim34
 
-		if dim12 < 54:
-			m 	= dim12
-		else:
-			m	= 54
-
+		m		= 64
 		dimO 	= m
 
 		sites = []
@@ -79,7 +75,7 @@ def blocking(nsites):
 		calculate dmat
 		'''
 		
-		dmat, matO = form_dmat(evec, dim12, dim34)
+		dmat, matO = form_dmat(evec, dim12, dim34, m)
 
 
 		matOT 	= matO.transpose()

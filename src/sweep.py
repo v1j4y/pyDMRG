@@ -31,11 +31,7 @@ def sweep(nsites):
 			dim34	= dim2*dim0
 			dim1234	= dim12*dim34
 
-			if dim12 < 54:
-				m 	= dim12
-			else:
-				m	= 54
-
+			m		= 128
 			dimO 	= m
 
 			sites = []
@@ -86,7 +82,7 @@ def sweep(nsites):
 			calculate dmat
 			'''
 		
-			dmat, matO = form_dmat(evec, dim12, dim34)
+			dmat, matO = form_dmat(evec, dim12, dim34, m)
 
 
 			matOT 	= matO.transpose()
@@ -106,6 +102,8 @@ def sweep(nsites):
 	now do second sweep
 	'''
 
+	print 'doing second sweep'
+
 	site0 	= Site()
 
 	for i in range(nsites-1, nsites/2-1, -1):
@@ -124,11 +122,7 @@ def sweep(nsites):
 			dim34	= dim2*dim0
 			dim1234	= dim12*dim34
 
-			if dim12 < 54:
-				m 	= dim12
-			else:
-				m	= 54
-
+			m		= 128
 			dimO 	= m
 
 			sites = []
@@ -179,7 +173,7 @@ def sweep(nsites):
 			calculate dmat
 			'''
 			
-			dmat, matO = form_dmat(evec, dim12, dim34)
+			dmat, matO = form_dmat(evec, dim12, dim34, m)
 
 
 			matOT 	= matO.transpose()
