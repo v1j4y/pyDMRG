@@ -27,7 +27,6 @@ def blocking(nsites):
 		dim12	= dim1*dim0
 		dim34	= dim2*dim0
 		dim1234	= dim12*dim34
-		print dim12, dim34, dim1234
 
 		if dim12 < 54:
 			m 	= dim12
@@ -95,7 +94,6 @@ def blocking(nsites):
 		site1 = site12
 		site2 = site12
 		sitefilename = "site_"+str(i+1)
-		print sitefilename
 		numpy.save(sitefilename, site1)
 
 if __name__=="__main__":

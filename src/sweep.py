@@ -18,7 +18,6 @@ def sweep(nsites):
 	for i in range(nsites/2, 1, -1):
 
 			sitefilename = "site_"+str(i)+".npy"
-			print sitefilename
 			site2 	= numpy.load(sitefilename).item()
 
 			if i == nsites/2:
@@ -31,7 +30,6 @@ def sweep(nsites):
 			dim12	= dim1*dim0
 			dim34	= dim2*dim0
 			dim1234	= dim12*dim34
-			print dim12, dim34, dim1234
 
 			if dim12 < 54:
 				m 	= dim12
@@ -78,14 +76,16 @@ def sweep(nsites):
 
 			evals, evecs = linalg.eigsh(site1234.H, k=neig, which="SA", tol=1e-08, maxiter=100000)
 #	eval	s, evecs = numpy.linalg.eigh(site1234.H.toarray())
-			evec	 = evecs[:,0]
-			print evals[0], evals[0]-evals[1]
+			idx = evals.argsort()[::-1]   
+			evals = evals[idx]
+			evecs = evecs[:,idx]
+			evec	 = evecs[:,1]
+			print evals[1], evals[0]
 
 			'''
 			calculate dmat
 			'''
 		
-			print len(evec), dim12, dim1234
 			dmat, matO = form_dmat(evec, dim12, dim34)
 
 
@@ -100,7 +100,7 @@ def sweep(nsites):
 			
 			site1 = site12
 			sitefilename = "site_"+str((nsites+1)-i)
-			numpy.savez(sitefilename, site1)
+			numpy.save(sitefilename, site1)
 
 	'''
 	now do second sweep
@@ -108,7 +108,7 @@ def sweep(nsites):
 
 	site0 	= Site()
 
-	for i in range(nsites-1, nsites+1, -1):
+	for i in range(nsites-1, nsites/2-1, -1):
 
 			sitefilename = "site_"+str(i)+".npy"
 			site2 	= numpy.load(sitefilename).item()
@@ -123,7 +123,6 @@ def sweep(nsites):
 			dim12	= dim1*dim0
 			dim34	= dim2*dim0
 			dim1234	= dim12*dim34
-			print dim12, dim34, dim1234
 
 			if dim12 < 54:
 				m 	= dim12
@@ -153,7 +152,6 @@ def sweep(nsites):
 
 			site34 = Site()
 			form_H12(sites[2], sites[3], site34)
-			print is_Hermitian(site34.H.toarray())
 
 			'''
 			Forming block H1234
@@ -171,14 +169,16 @@ def sweep(nsites):
 
 			evals, evecs = linalg.eigsh(site1234.H, k=neig, which="SA", tol=1e-08, maxiter=100000)
 #	eval	s, evecs = numpy.linalg.eigh(site1234.H.toarray())
-			evec	 = evecs[:,0]
-			print evals[0], evals[0]-evals[1]
+			idx = evals.argsort()[::-1]   
+			evals = evals[idx]
+			evecs = evecs[:,idx]
+			evec	 = evecs[:,1]
+			print evals[1], evals[0]-evals[1]
 
 			'''
 			calculate dmat
 			'''
 			
-			print len(evec), dim12, dim1234
 			dmat, matO = form_dmat(evec, dim12, dim34)
 
 
@@ -193,11 +193,11 @@ def sweep(nsites):
 			
 			site1 = site12
 			sitefilename = "site_"+str((nsites+1)-i)
-			numpy.savez(sitefilename, site1)
+			numpy.save(sitefilename, site1)
 
 if __name__ == "__main__":
 
-	nsites = 8
+	nsites = 14
 
 	'''
 	do blocking first

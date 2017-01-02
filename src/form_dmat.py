@@ -28,7 +28,6 @@ def form_dmat(evec, dim12, dim34):
 	else:
 		evals, evecs = numpy.linalg.eigh(dmat)
 
-	print dim12, neig, evals
 	
 	if dim12 <= 16:
 		matO = evecs
