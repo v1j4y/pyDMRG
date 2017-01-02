@@ -1,7 +1,7 @@
 pyDMRG
 ======
 
-A toy DMRG program in python based on S. R. White PRB 48 10345 1993
+A toy DMRG program in python based on [S. R. White PRB 48 10345 1993](http://journals.aps.org/prb/abstract/10.1103/PhysRevB.48.10345)
 
 Particles
 ---------
