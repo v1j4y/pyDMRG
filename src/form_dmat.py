@@ -4,14 +4,7 @@ import numpy
 from scipy.sparse import csr_matrix, kron, linalg
 
 def is_Hermitian(matrix):
-	count = True
-	print "in is herm"
-	for kk in range(dim12):
-		for ll in range(kk):
-			if abs(site34.H.toarray()[kk][ll]-site34.H.toarray()[ll][kk]) > 1e-09 :
-				print kk, ll
-				count = False
-	return count
+	return numpy.allclose(matrix.T, matrix)
 
 def form_dmat(evec, dim12):
 	'''
@@ -27,8 +20,12 @@ def form_dmat(evec, dim12):
 
 	neig = len(dmat)-2
 
-#evals, evecs = linalg.eigs(dmat, k=neig, which="LM", tol=0)
-	evals, evecs = numpy.linalg.eigh(dmat)
+	if len(dmat) > 34:
+		evals, evecs = linalg.eigs(dmat, k=neig, which="LM", tol=0)
+	else:
+		evals, evecs = numpy.linalg.eigh(dmat)
+
+	print dim12, neig, evals
 	
 	if dim12 <= 16:
 		matO = evecs

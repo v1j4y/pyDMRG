@@ -7,12 +7,7 @@ from form_H12 import form_H12
 from form_dmat import form_dmat
 
 def is_Hermitian(matrix):
-	count = True
-	for kk in range(matrix.shape[0]):
-		for ll in range(kk):
-			if abs(matrix[kk][ll]-matrix[ll][kk]) > 1e-09 :
-				count = False
-	return count
+	return numpy.allclose(matrix.T, matrix)
 
 def pprint(matrix):
 	print numpy.array_str(matrix, precision=2, suppress_small=True)
@@ -23,15 +18,16 @@ if __name__=="__main__":
 	site1 	= Site()
 	site2 	= Site()
 
-	nsites 	= 4
+	nsites 	= 6
 
 	for i in range(1,nsites):
 
 		dim1 	= site1.H.shape[0]
+		dim0 	= site0.H.shape[0]
 		dim2 	= site2.H.shape[0]
 
-		dim12	= dim1*dim2
-		dim34	= dim1*dim2
+		dim12	= dim1*dim0
+		dim34	= dim2*dim0
 		dim1234	= dim12*dim34
 		print dim12, dim34, dim1234
 
@@ -57,6 +53,7 @@ if __name__=="__main__":
 		form_H12(sites[0], sites[1], site12)
 		dim12 = site12.H.shape[0]
 		print is_Hermitian(site12.H.toarray())
+		print "is real ", numpy.isreal(site12.H.toarray())
 
 		'''
 		Forming block H34
@@ -81,6 +78,7 @@ if __name__=="__main__":
 		neig = 1
 
 		print is_Hermitian(site1234.H.toarray())
+		print "is real ", numpy.isreal(site1234.H.toarray())
 #	evals, evec = linalg.eigs(site1234.H, neig, which="SM", tol=1e-09, maxiter=400)
 		evals, evecs = numpy.linalg.eigh(site1234.H.toarray())
 		evec = evecs[:,0]
