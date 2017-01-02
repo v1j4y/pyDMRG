@@ -6,7 +6,10 @@ from scipy.sparse import csr_matrix, kron, linalg
 def is_Hermitian(matrix):
 	return numpy.allclose(matrix.T, matrix)
 
-def form_dmat(evec, dim12):
+def pprint(matrix):
+	print numpy.array_str(matrix, precision=2, suppress_small=True)
+
+def form_dmat(evec, dim12, dim34):
 	'''
 	For the reduced density matrix on the A* sub-block
 
@@ -15,7 +18,7 @@ def form_dmat(evec, dim12):
 		matO	: rotation matrix
 	'''
 	
-	projvec = numpy.reshape(evec, (dim12, dim12))
+	projvec = numpy.reshape(evec, (dim12, dim34))
 	dmat = projvec.dot(projvec.transpose())
 
 	neig = len(dmat)-2
