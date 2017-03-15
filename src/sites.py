@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import numpy
-from scipy.sparse import csr_matrix
+from scipy.sparse import csr_matrix, kron
 
 class Site(object):
 	'''Class that contains the MPO's for each site
@@ -23,16 +23,16 @@ class Site(object):
 		self.Jz.append(Jz)
 		self.Jz.append(Jz)
 
-		rowindicesSp 	= numpy.array([0])
-		columnindicesSp = numpy.array([1])
+		rowindicesSp 	= numpy.array([1])
+		columnindicesSp = numpy.array([0])
 		dataSp 			= numpy.array([1.])
 		Sp 				= csr_matrix((dataSp,(rowindicesSp,columnindicesSp)),shape=(2,2))
 		self.Sp			= []
 		self.Sp.append(Sp)
 		self.Sp.append(Sp)
 
-		rowindicesSm 	= numpy.array([1])
-		columnindicesSm = numpy.array([0])
+		rowindicesSm 	= numpy.array([0])
+		columnindicesSm = numpy.array([1])
 		dataSm 			= numpy.array([1.])
 		Sm 				= csr_matrix((dataSm,(rowindicesSm,columnindicesSm)),shape=(2,2))
 		self.Sm			= []
@@ -44,7 +44,7 @@ class Site(object):
 		dataH  			= numpy.array([0.])
 		self.H  = csr_matrix((dataH ,(rowindicesH ,columnindicesH )),shape=(2,2))
 
-class SiteHubb(object):
+class SiteHubb(Site):
 	'''
 	Hubbard model
 
@@ -61,34 +61,49 @@ class SiteHubb(object):
 		
 
 	def __init__(self):
-		rowindicesJz 	= numpy.array([0,1])
-		columnindicesJz = numpy.array([0,1])
+		obj = Site()
+		rowindicesJz 	= numpy.array([1,2])
+		columnindicesJz = numpy.array([1,2])
 		dataJz 			= numpy.array([1./2.,-1./2.])
-		Jz 				= csr_matrix((dataJz,(rowindicesJz,columnindicesJz)),shape=(2,2))
+		Jz 				= csr_matrix((dataJz,(rowindicesJz,columnindicesJz)),shape=(4,4))
 		self.Jz			= []
 		self.Jz.append(Jz)
 		self.Jz.append(Jz)
 
-		rowindicesSp 	= numpy.array([0])
-		columnindicesSp = numpy.array([1])
-		dataSp 			= numpy.array([1.])
-		Sp 				= csr_matrix((dataSp,(rowindicesSp,columnindicesSp)),shape=(2,2))
+		Sp 				= kron(obj.Sm[0], obj.Sp[0])
 		self.Sp			= []
 		self.Sp.append(Sp)
 		self.Sp.append(Sp)
 
-		rowindicesSm 	= numpy.array([1])
-		columnindicesSm = numpy.array([0])
-		dataSm 			= numpy.array([1.])
-		Sm 				= csr_matrix((dataSm,(rowindicesSm,columnindicesSm)),shape=(2,2))
+		Sm 				= kron(obj.Sp[0], obj.Sm[0])
 		self.Sm			= []
 		self.Sm.append(Sm)
 		self.Sm.append(Sm)
 
+		Ca 				= kron(numpy.eye(2), obj.Sp[0])
+		self.Ca			= []
+		self.Ca.append(Ca)
+		self.Ca.append(Ca)
+
+		Cb 				= kron(obj.Sp[0], numpy.eye(2))
+		self.Cb			= []
+		self.Cb.append(Cb)
+		self.Cb.append(Cb)
+
+		Da 				= kron(numpy.eye(2), obj.Sm[0])
+		self.Da			= []
+		self.Da.append(Da)
+		self.Da.append(Da)
+
+		Db 				= kron(obj.Sm[0], numpy.eye(2))
+		self.Db			= []
+		self.Db.append(Db)
+		self.Db.append(Db)
+
 		rowindicesH  	= numpy.array([0])
 		columnindicesH  = numpy.array([0])
 		dataH  			= numpy.array([0.])
-		self.H  = csr_matrix((dataH ,(rowindicesH ,columnindicesH )),shape=(2,2))
+		self.H  = csr_matrix((dataH ,(rowindicesH ,columnindicesH )),shape=(4,4))
 
 if __name__ == "__main__":
 
@@ -96,6 +111,6 @@ if __name__ == "__main__":
 
 	nsites = 1
 	for i in range(nsites):
-		sites.append(Site())
+		sites.append(SiteHubb())
 
-	print sites[0].Jz.toarray()
+	print sites[0].Cb[0].toarray()
