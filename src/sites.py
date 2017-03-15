@@ -105,6 +105,16 @@ class SiteHubb(Site):
 		self.Db.append(Db)
 		self.Db.append(Db)
 
+		Na 				= Ca.dot(Da)
+		self.Na			= []
+		self.Na.append(Na)
+		self.Na.append(Na)
+
+		Nb 				= Cb.dot(Db)
+		self.Nb			= []
+		self.Nb.append(Nb)
+		self.Nb.append(Nb)
+
 		rowindicesH  	= numpy.array([0])
 		columnindicesH  = numpy.array([0])
 		dataH  			= numpy.array([0.])
@@ -114,8 +124,8 @@ if __name__ == "__main__":
 
 	sites = []
 
-	nsites = 1
+	nsites = 2
 	for i in range(nsites):
 		sites.append(SiteHubb())
 
-	print sites[0].Cb[0].toarray()
+	print sites[0].Na[0].toarray()
