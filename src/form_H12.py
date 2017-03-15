@@ -104,5 +104,4 @@ if __name__=="__main__":
 	form_H12_Hubb(sites[0], sites[1], site12)
 
 	print (site12.Na[0].toarray()  + site12.Na[1].toarray() )
-	print (site12.Nb[0].toarray()  + site12.Nb[1].toarray() )
 	print site12.H.toarray()

@@ -94,6 +94,7 @@ def sweep(nsites):
 			
 			site1 = site12
 			print "dim =",dim1234,"dim12=",dim12,"dim12fin = ",site1.H.shape
+			print ':::',(2*nsites+1)-i,':::'
 			sitefilename = "site_"+str((2*nsites+1)-i)
 			numpy.save(sitefilename, site1)
 
@@ -180,12 +181,13 @@ def sweep(nsites):
 			
 			site1 = site12
 			print "dim =",dim1234,"dim12=",dim12,"dim12fin = ",site1.H.shape
+			print ':::',(2*nsites+1)-i,':::'
 			sitefilename = "site_"+str((2*nsites+1)-i)
 			numpy.save(sitefilename, site1)
 
 if __name__ == "__main__":
 
-	nsites = 6
+	nsites = 4
 
 	'''
 	do blocking first

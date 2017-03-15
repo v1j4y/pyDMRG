@@ -85,6 +85,7 @@ def blocking(nsites):
 		site1 = site12
 		site2 = site12
 		sitefilename = "site_"+str(i+1)
+		print ':::',i+1,':::'
 		numpy.save(sitefilename, site1)
 #	sitefilename = "sz0"
 #	numpy.savetxt(sitefilename, sztot)
