@@ -44,6 +44,52 @@ class Site(object):
 		dataH  			= numpy.array([0.])
 		self.H  = csr_matrix((dataH ,(rowindicesH ,columnindicesH )),shape=(2,2))
 
+class SiteHubb(object):
+	'''
+	Hubbard model
+
+	Class that contains the MPO's for each site
+	
+	Attributes:
+		Jz:	The Jz matrix
+		Sp: The step up matrix
+		Sm:	The step down matrix
+		C:	The creation operator
+		D:	The destruction operator
+		H:	The Hamiltonian which is the 0 matrix
+	'''
+		
+
+	def __init__(self):
+		rowindicesJz 	= numpy.array([0,1])
+		columnindicesJz = numpy.array([0,1])
+		dataJz 			= numpy.array([1./2.,-1./2.])
+		Jz 				= csr_matrix((dataJz,(rowindicesJz,columnindicesJz)),shape=(2,2))
+		self.Jz			= []
+		self.Jz.append(Jz)
+		self.Jz.append(Jz)
+
+		rowindicesSp 	= numpy.array([0])
+		columnindicesSp = numpy.array([1])
+		dataSp 			= numpy.array([1.])
+		Sp 				= csr_matrix((dataSp,(rowindicesSp,columnindicesSp)),shape=(2,2))
+		self.Sp			= []
+		self.Sp.append(Sp)
+		self.Sp.append(Sp)
+
+		rowindicesSm 	= numpy.array([1])
+		columnindicesSm = numpy.array([0])
+		dataSm 			= numpy.array([1.])
+		Sm 				= csr_matrix((dataSm,(rowindicesSm,columnindicesSm)),shape=(2,2))
+		self.Sm			= []
+		self.Sm.append(Sm)
+		self.Sm.append(Sm)
+
+		rowindicesH  	= numpy.array([0])
+		columnindicesH  = numpy.array([0])
+		dataH  			= numpy.array([0.])
+		self.H  = csr_matrix((dataH ,(rowindicesH ,columnindicesH )),shape=(2,2))
+
 if __name__ == "__main__":
 
 	sites = []

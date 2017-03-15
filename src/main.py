@@ -6,7 +6,7 @@ from sweep import sweep
 
 if __name__ == "__main__":
 
-	nsites = 8
+	nsites = 6
 
 	'''
 	do blocking first

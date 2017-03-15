@@ -160,7 +160,7 @@ def sweep(nsites):
 			evals = evals[idx]
 			evecs = evecs[:,idx]
 			evec	 = evecs[:,1]
-			print "i= ",i,evals[1], evals[0]
+			print "i= ",i,evals[1], evals[0],"dim=",dim1234
 
 			'''
 			calculate dmat

@@ -20,6 +20,11 @@ def form_dmat(evec, dim12, dim34, m):
 	
 	projvec = numpy.reshape(evec, (dim12, dim34))
 	dmat = projvec.dot(projvec.T)
+	'''
+		this is equivalent to the einsum version but much faster
+
+		dmat2 = numpy.einsum('ik,kj->ij',projvec,projvec.T)
+	'''
 
 
 	if dim12 > m:
