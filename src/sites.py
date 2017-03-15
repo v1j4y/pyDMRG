@@ -49,13 +49,18 @@ class SiteHubb(Site):
 	Hubbard model
 
 	Class that contains the MPO's for each site
+
+			0 a  b  ab
+	basis: [0,01,10,11]
 	
 	Attributes:
 		Jz:	The Jz matrix
 		Sp: The step up matrix
 		Sm:	The step down matrix
-		C:	The creation operator
-		D:	The destruction operator
+		Ca:	The alpha creation operator
+		Cb:	The beta creation operator
+		Da:	The alpha destruction operator
+		Db:	The beta destruction operator
 		H:	The Hamiltonian which is the 0 matrix
 	'''
 		
