@@ -40,10 +40,12 @@ def form_dmat(evec, dim12, dim34, m):
 	
 	if dim12 > m:
 		matO = evecs[:,dim12-1-m+1:]
+		discardw = 1 - sum(evals[dim12-1-m+1:])
 	else:
 		matO = evecs
+		discardw = 0
 
-	return dmat, matO
+	return dmat, matO, discardw
 
 if __name__=="__main__":
 

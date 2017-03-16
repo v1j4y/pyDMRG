@@ -70,7 +70,7 @@ def blocking(nsites):
 		calculate dmat
 		'''
 		
-		dmat, matO = form_dmat(evec[:,0], dim12, dim12, m)
+		dmat, matO, discardw = form_dmat(evec[:,0], dim12, dim12, m)
 
 
 		matOT 	= matO.transpose()
@@ -85,7 +85,6 @@ def blocking(nsites):
 		site1 = site12
 		site2 = site12
 		sitefilename = "site_"+str(i+1)
-		print ':::',i+1,':::'
 		numpy.save(sitefilename, site1)
 #	sitefilename = "sz0"
 #	numpy.savetxt(sitefilename, sztot)
@@ -147,7 +146,7 @@ def blockingHubb(nsites):
 		calculate dmat
 		'''
 		
-		dmat, matO = form_dmat(evec[:,0], dim12, dim12, m)
+		dmat, matO, discardw = form_dmat(evec[:,0], dim12, dim12, m)
 
 
 		matOT 	= matO.transpose()
