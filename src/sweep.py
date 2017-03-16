@@ -4,7 +4,7 @@ import numpy
 from scipy import linalg
 from scipy.sparse import csr_matrix, kron
 from sites import Site
-from form_H12 import form_H12
+from form_H12 import form_H12, form_H34
 from form_dmat import form_dmat, is_Hermitian
 from blocking import blocking
 
@@ -19,13 +19,17 @@ def sweep(nsites):
 
 	site0 	= Site()
 
-	for i in range(nsites, 1, -1):
-
-			sitefilename = "site_"+str(i)+".npy"
-			site2 	= numpy.load(sitefilename).item()
+	for i in range(nsites, 0, -1):
 
 			if i == nsites:
+				sitefilename = "site_"+str(i)+".npy"
+				site2 	= numpy.load(sitefilename).item()
 				site1 	= site2
+			elif i == 1:
+				site2 = Site()
+			else:
+				sitefilename = "site_"+str(i)+".npy"
+				site2 	= numpy.load(sitefilename).item()
 
 			dim1 	= site1.H.shape[0]
 			dim0 	= site0.H.shape[0]
@@ -51,7 +55,7 @@ def sweep(nsites):
 			'''
 
 			site34 = Site()
-			form_H12(site2, site0, site34)
+			form_H34(site2, site0, site34)
 
 			'''
 			Forming block H1234
@@ -74,6 +78,7 @@ def sweep(nsites):
 			evals = evals[idx]
 			evecs = evecs[:,idx]
 			evec	 = evecs[:,1]
+			print ':::',(2*nsites+1)-i-1,':::',':::',i,':::'
 			print "i= ",i,evals[1], evals[0]
 
 			'''
@@ -93,7 +98,7 @@ def sweep(nsites):
 			site12.Sm[1] = matOT.dot(site12.Sm[1].dot(matO))
 			
 			site1 = site12
-			print "dim =",dim1234,"dim12=",dim12,"dim12fin = ",site1.H.shape
+			print "dim =",dim1234,"dim12=",dim12,"dim12fin = ",site1.H.shape,"dim34=",dim34
 			print ':::',(2*nsites+1)-i,':::'
 			sitefilename = "site_"+str((2*nsites+1)-i)
 			numpy.save(sitefilename, site1)
@@ -111,8 +116,11 @@ def sweep(nsites):
 			sitefilename = "site_"+str(i)+".npy"
 			site2 	= numpy.load(sitefilename).item()
 
+
 			if i == 2*nsites-1:
 				site1 	= Site()
+			
+			print ':::',(2*nsites)-i,':::',':::',i,':::'
 
 			dim1 	= site1.H.shape[0]
 			dim0 	= site0.H.shape[0]
@@ -138,7 +146,7 @@ def sweep(nsites):
 			'''
 
 			site34 = Site()
-			form_H12(site2, site0, site34)
+			form_H34(site2, site0, site34)
 
 			'''
 			Forming block H1234
@@ -161,7 +169,7 @@ def sweep(nsites):
 			evals = evals[idx]
 			evecs = evecs[:,idx]
 			evec	 = evecs[:,1]
-			print "i= ",i,evals[1], evals[0],"dim=",dim1234
+			print "i= ",i,evals[1], evals[0],"dim12=",dim12,"dim1234=",dim1234
 
 			'''
 			calculate dmat
@@ -180,9 +188,9 @@ def sweep(nsites):
 			site12.Sm[1] = matOT.dot(site12.Sm[1].dot(matO))
 			
 			site1 = site12
-			print "dim =",dim1234,"dim12=",dim12,"dim12fin = ",site1.H.shape
-			print ':::',(2*nsites+1)-i,':::'
+			print "dim =",dim1234,"dim12=",dim12,"dim12fin = ",site1.H.shape,"dim34=",dim34
 			sitefilename = "site_"+str((2*nsites+1)-i)
+			print ':::',(2*nsites+1)-i,':::'
 			numpy.save(sitefilename, site1)
 
 if __name__ == "__main__":
